@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Statistik | RasaKampus</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/datatables.net-dt@2.1.8/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <style>
+        :root {
+            --ink: #172b24;
+            --muted: #6b7b72;
+            --green: #176b4b;
+            --lime: #dff3e7;
+            --cream: #fbfaf6;
+            --orange: #f29b50
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--ink);
+            font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif
+        }
+
+        .navbar {
+            background: #fff !important;
+            border-bottom: 1px solid #e8eee9
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--green) !important;
+            letter-spacing: -.5px
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: #53645b !important
+        }
+
+        .nav-link.active,
+        .nav-link:hover {
+            color: var(--green) !important
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #e7f5eb, #f8f5e9);
+            border-radius: 28px;
+            padding: clamp(28px, 5vw, 64px);
+            overflow: hidden
+        }
+
+        .eyebrow {
+            color: var(--green);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: .75rem
+        }
+
+        .display-title {
+            font-weight: 850;
+            letter-spacing: -2px;
+            line-height: 1.04
+        }
+
+        .btn-success {
+            background: var(--green);
+            border-color: var(--green)
+        }
+
+        .btn-success:hover {
+            background: #10553a
+        }
+
+        .btn-outline-success {
+            border-color: var(--green);
+            color: var(--green)
+        }
+
+        .card {
+            border: 1px solid #e9eee9;
+            border-radius: 18px;
+            box-shadow: 0 8px 28px rgba(27, 60, 42, .045)
+        }
+
+        .food-img {
+            height: 180px;
+            object-fit: cover;
+            border-radius: 16px 16px 0 0
+        }
+
+        .rating {
+            color: #d98a26;
+            font-weight: 800
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 22px;
+            border: 1px solid #e9eee9
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 850;
+            color: var(--green)
+        }
+
+        .section-space {
+            padding: 52px 0
+        }
+
+        .footer {
+            background: #142d23;
+            color: #dce9e0;
+            padding: 34px 0;
+            margin-top: 60px
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 12px;
+            padding: .7rem .9rem
+        }
+
+        .badge-soft {
+            background: var(--lime);
+            color: var(--green)
+        }
+
+        #campusMap {
+            height: 390px;
+            border-radius: 18px;
+            z-index: 1
+        }
+
+        .table thead th {
+            background: #eff7f1;
+            color: #345342
+        }
+
+        .review-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #dff3e7;
+            color: var(--green);
+            display: grid;
+            place-items: center;
+            font-weight: 800
+        }
+
+        @media(max-width:576px) {
+            .display-title {
+                letter-spacing: -1px
+            }
+
+            .section-space {
+                padding: 34px 0
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container"><a class="navbar-brand" href="index.html">🍃 RasaKampus</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navMain">
+                <ul class="navbar-nav ms-auto gap-lg-2">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="direktori.html">Direktori</a></li>
+                    <li class="nav-item"><a class="nav-link" href="review.html">Review</a></li>
+                    <li class="nav-item"><a class="nav-link" href="statistik.html">Statistik</a></li>
+                    <li class="nav-item"><a class="nav-link" href="peta.html">Peta Kuliner</a></li>
+                    <li class="nav-item"><a class="nav-link" href="detail.html">Tentang</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container section-space">
+        <div class="eyebrow">Data & insight</div>
+        <h1 class="display-title display-5 mt-2">Statistik kuliner</h1>
+        <p class="muted mb-4">Ringkasan direktori dan preferensi pengunjung berdasarkan data contoh.</p>
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="muted small">Tempat terdaftar</div>
+                    <div class="stat-number">24</div>
+                    <div class="small muted">di sekitar kampus</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="muted small">Total review</div>
+                    <div class="stat-number">186</div>
+                    <div class="small muted">dari pengguna</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="muted small">Rating rata-rata</div>
+                    <div class="stat-number">4,5</div>
+                    <div class="small muted">dari 5 bintang</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="muted small">Kategori</div>
+                    <div class="stat-number">5</div>
+                    <div class="small muted">pilihan kuliner</div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="card p-3 p-md-4">
+                    <h5 class="fw-bold">Tempat makan per kategori</h5>
+                    <div id="categoryChart" style="height:320px"></div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card p-3 p-md-4">
+                    <h5 class="fw-bold">Distribusi rating</h5>
+                    <div id="ratingChart" style="height:320px"></div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card p-3 p-md-4">
+                    <h5 class="fw-bold">Tren review bulanan</h5>
+                    <div id="trendChart" style="height:300px"></div>
+                </div>
+            </div>
+        </div>
+        <p class="small muted mt-3">Catatan: angka pada halaman ini merupakan data simulasi untuk kebutuhan prototipe
+            UTS.</p>
+    </main>
+    <footer class="footer">
+        <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
+            <div><strong>RasaKampus</strong>
+                <div class="small opacity-75">Temukan rasa favorit di sekitar kampus.</div>
+            </div>
+            <div class="small opacity-75">Prototipe tugas Pengembangan Frontend · Data contoh</div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/datatables.net@2.1.8/js/dataTables.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        Highcharts.setOptions({colors: ['#176b4b', '#65a982', '#f29b50', '#9bc9ac', '#d7b56d'], credits: {enabled: false}});
+        Highcharts.chart('categoryChart', {chart: {type: 'column'}, title: {text: null}, xAxis: {categories: ['Rumahan', 'Mie & Bakso', 'Ayam', 'Kopi', 'Jajanan']}, yAxis: {title: {text: 'Jumlah tempat'}}, series: [{name: 'Tempat', data: [7, 5, 4, 3, 5]}]});
+        Highcharts.chart('ratingChart', {chart: {type: 'pie'}, title: {text: null}, tooltip: {pointFormat: '<b>{point.y}%</b>'}, plotOptions: {pie: {dataLabels: {enabled: true, format: '{point.name}: {point.y}%'}}}, series: [{name: 'Rating', data: [['5 bintang', 42], ['4 bintang', 38], ['3 bintang', 14], ['1–2 bintang', 6]]}]});
+        Highcharts.chart('trendChart', {chart: {type: 'line'}, title: {text: null}, xAxis: {categories: ['Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt']}, yAxis: {title: {text: 'Jumlah review'}}, series: [{name: 'Review', data: [18, 24, 21, 32, 41, 50]}]});
+    </script>
+</body>
+
+</html>
