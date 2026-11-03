@@ -173,9 +173,10 @@
 
 <body>
     <nav class="navbar navbar-expand-lg sticky-top">
-        <div class="container"><a class="navbar-brand" href="beranda.html">🍃 RasaKampus</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"><span
-                    class="navbar-toggler-icon"></span></button>
+        <div class="container">
+            <a class="navbar-brand" href="beranda.html">🍃 RasaKampus</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+                <span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navMain">
                 <ul class="navbar-nav ms-auto gap-lg-2">
                     <li class="nav-item"><a class="nav-link" href="beranda.html">Beranda</a></li>
@@ -189,61 +190,62 @@
         </div>
     </nav>
 
-    <main class="container section-space">
+    <main class="container-fluid section-space px-4">
         <div class="eyebrow">Data & insight</div>
         <h1 class="display-title display-5 mt-2">Statistik kuliner</h1>
-        <p class="muted mb-4">Ringkasan direktori dan preferensi pengunjung berdasarkan data</p>
+        <p class="muted mb-4">Ringkasan direktori dan preferensi pengunjung berdasarkan review </p>
+        
+        <!-- STATISTIK UTAMA -->
         <div class="row g-3 mb-4">
-            <div class="col-6 col-lg-3">
+            <div class="col-12 col-lg-4">
                 <div class="stat-card">
-                    <div class="muted small">Tempat terdaftar</div>
-                    <div class="stat-number">24</div>
-                    <div class="small muted">di sekitar lingkungan kampus</div>
+                    <div class="muted small">Total Review</div>
+                    <div class="stat-number" id="totalReviews">0</div>
                 </div>
             </div>
-            <div class="col-6 col-lg-3">
+            <div class="col-12 col-lg-4">
                 <div class="stat-card">
-                    <div class="muted small">Total review</div>
-                    <div class="stat-number">5</div>
-                    <div class="small muted">dari pengguna</div>
+                    <div class="muted small">Rating Rata-rata</div>
+                    <div class="stat-number" id="averageRating">0,0</div>
                 </div>
             </div>
-            <div class="col-6 col-lg-3">
+            <div class="col-12 col-lg-4">
                 <div class="stat-card">
-                    <div class="muted small">Rating rata-rata</div>
-                    <div class="stat-number">4,5</div>
-                    <div class="small muted">dari 5 bintang</div>
-                </div>
-            </div>
-            <div class="col-6 col-lg-3">
-                <div class="stat-card">
-                    <div class="muted small">Kategori</div>
-                    <div class="stat-number">5</div>
-                    <div class="small muted">pilihan kuliner</div>
+                    <div class="muted small">Tempat Direview</div>
+                    <div class="stat-number" id="reviewedPlaces">0</div>
                 </div>
             </div>
         </div>
+
         <div class="row g-4">
             <div class="col-lg-7">
-                <div class="card p-3 p-md-4">
-                    <h5 class="fw-bold">Tempat makan per kategori</h5>
-                    <div id="categoryChart" style="height:320px"></div>
+                <div class="card p-3 p-md-4 h-100">
+                    <h5 class="fw-bold">Review per Tempat Makan</h5>
+                    <p class="muted small">Jumlah review yang diterima setiap tempat.</p>
+                    <div id="categoryChart" class="chart-container"></div>
                 </div>
             </div>
+
             <div class="col-lg-5">
-                <div class="card p-3 p-md-4">
-                    <h5 class="fw-bold">Distribusi rating</h5>
-                    <div id="ratingChart" style="height:320px"></div>
+                <div class="card p-3 p-md-4 h-100">
+                    <h5 class="fw-bold">Distribusi Rating</h5>
+                    <select id="filterTokoRating" class="form-select mb-3">
+                        <option value="semua">Semua Toko</option>
+                     </select>
+                    <div id="ratingChart" class="chart-container"></div>
                 </div>
             </div>
+
             <div class="col-12">
                 <div class="card p-3 p-md-4">
-                    <h5 class="fw-bold">Tren review bulanan</h5>
+                    <h5 class="fw-bold">Tren Review Bulanan</h5>
+                    <p class="muted small">Perkembangan jumlah review dalam enam bulan terakhir.</p>
                     <div id="trendChart" style="height:300px"></div>
                 </div>
             </div>
         </div>
     </main>
+
     <footer class="footer">
         <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
             <div><strong>RasaKampus</strong>
@@ -252,17 +254,322 @@
             <div class="small opacity-75">Prototipe tugas Pengembangan Frontend</div>
         </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/datatables.net@2.1.8/js/dataTables.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        Highcharts.setOptions({colors: ['#176b4b', '#65a982', '#f29b50', '#9bc9ac', '#d7b56d'], credits: {enabled: false}});
-        Highcharts.chart('categoryChart', {chart: {type: 'column'}, title: {text: null}, xAxis: {categories: ['Rumahan', 'Mie & Bakso', 'Ayam', 'Kopi', 'Jajanan']}, yAxis: {title: {text: 'Jumlah tempat'}}, series: [{name: 'Tempat', data: [7, 5, 4, 3, 5]}]});
-        Highcharts.chart('ratingChart', {chart: {type: 'pie'}, title: {text: null}, tooltip: {pointFormat: '<b>{point.y}%</b>'}, plotOptions: {pie: {dataLabels: {enabled: true, format: '{point.name}: {point.y}%'}}}, series: [{name: 'Rating', data: [['5 bintang', 42], ['4 bintang', 38], ['3 bintang', 14], ['1–2 bintang', 6]]}]});
-        Highcharts.chart('trendChart', {chart: {type: 'line'}, title: {text: null}, xAxis: {categories: ['Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt']}, yAxis: {title: {text: 'Jumlah review'}}, series: [{name: 'Review', data: [18, 24, 21, 32, 41, 50]}]});
-    </script>
-</body>
+    
+<script type="module">
 
+// 1. IMPORT FIREBASE
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore, collection,onSnapshot} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// 2. KONFIGURASI FIREBASE
+const firebaseConfig = {
+    apiKey: "ISI_API_KEY_FIREBASE",
+    authDomain: "ISI_AUTH_DOMAIN",
+    projectId: "kulinerkampus-16bf0",
+    storageBucket: "ISI_STORAGE_BUCKET",
+    messagingSenderId: "ISI_MESSAGING_SENDER_ID",
+    appId: "ISI_APP_ID"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const reviewsRef = collection(db, "reviews");
+
+// 3. PENGATURAN HIGHCHARTS
+Highcharts.setOptions({
+    colors: ["#176b4b", "#65a982", "#f29b50", "#9bc9ac", "#d7b56d"],
+    credits: {enabled: false}
+});
+
+// 4. VARIABEL
+let reviews = [];
+const filterTokoRating = document.getElementById("filterTokoRating");
+// Mengambil tanggal dari Firestore
+function getReviewDate(review) {
+    const value = review.createdAt;
+    if (value?.toDate) {
+        return value.toDate();
+    }
+    if (value instanceof Date) {
+        return value;
+    }
+    if (typeof value === "string" || typeof value === "number") {
+        const date = new Date(value);
+        return Number.isNaN(date.getTime()) ? null : date;
+    }
+    return null;
+}
+// 5. MEMBUAT GRAFIK
+// Grafik review per toko
+const categoryChart = Highcharts.chart("categoryChart", {
+    chart: {type: "column"},
+    title: {text: null},
+    xAxis: {categories: []},
+    yAxis: {min: 0, allowDecimals: false, title: { text: "Jumlah Review"}},
+    series: [{name: "Review", data: [] }]
+});
+// GRAFIK DISTRIBUSI RATING BERBENTUK LINGKARAN
+const ratingChart = Highcharts.chart("ratingChart", {
+
+    chart: {
+        type: "pie"
+    },
+
+    title: {
+        text: null
+    },
+
+    tooltip: {
+        pointFormat:
+            "Jumlah: <b>{point.y}</b><br>" +
+            "Persentase: <b>{point.percentage:.1f}%</b>"
+    },
+
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: "pointer",
+
+            dataLabels: {
+                enabled: true,
+                format: "{point.name}<br>{point.percentage:.1f}%",
+                distance: 20
+            },
+
+            showInLegend: true
+        }
+    },
+
+    series: [{
+        name: "Distribusi Rating",
+        colorByPoint: true,
+        data: []
+    }]
+
+});
+// Grafik tren bulanan
+const trendChart = Highcharts.chart("trendChart", {
+
+    chart: {
+        type: "line"
+    },
+
+    title: {
+        text: null
+    },
+
+    xAxis: {
+        categories: []
+    },
+
+    yAxis: {
+        min: 0,
+        allowDecimals: false,
+        title: {
+            text: "Jumlah Review"
+        }
+    },
+
+    series: [{
+        name: "Review",
+        data: []
+    }]
+
+});
+// 6. UPDATE DROPDOWN TOKO
+function updateDropdownToko() {
+
+    const tokoSebelumnya = filterTokoRating.value;
+
+    const daftarToko = [
+        ...new Set(
+            reviews
+                .map(r => r.place)
+                .filter(toko => typeof toko === "string" && toko.trim())
+        )
+    ].sort();
+
+    filterTokoRating.innerHTML =
+        '<option value="semua">Semua Toko</option>';
+
+    daftarToko.forEach(toko => {
+
+        const option = document.createElement("option");
+
+        option.value = toko;
+        option.textContent = toko;
+
+        filterTokoRating.appendChild(option);
+
+    });
+
+    if (daftarToko.includes(tokoSebelumnya)) {
+        filterTokoRating.value = tokoSebelumnya;
+    }
+
+}
+// 7. UPDATE DISTRIBUSI RATING
+function updateRatingChart() {
+
+    const toko = filterTokoRating.value;
+
+    const data = toko === "semua"
+        ? reviews
+        : reviews.filter(r => r.place === toko);
+
+    const jumlahRating = [0, 0, 0, 0, 0];
+
+    data.forEach(review => {
+
+        const bintang = Number(review.stars);
+
+        if (
+            Number.isInteger(bintang) &&
+            bintang >= 1 &&
+            bintang <= 5
+        ) {
+            jumlahRating[bintang - 1]++;
+        }
+
+    });
+
+    const dataPie = jumlahRating.map((jumlah, index) => ({
+        name: `${index + 1} Bintang`,
+        y: jumlah
+    }));
+
+    ratingChart.series[0].setData(dataPie);
+
+}
+
+// 8. UPDATE SELURUH STATISTIK
+function updateStatistics() {
+
+    // Total review
+    document.getElementById("totalReviews").textContent =
+        reviews.length;
+
+
+    // Rating rata-rata
+    const ratingValid = reviews
+        .map(r => Number(r.stars))
+        .filter(r =>
+            Number.isInteger(r) && r >= 1 && r <= 5
+        );
+
+    const rataRata = ratingValid.length
+        ? ratingValid.reduce((a, b) => a + b, 0) / ratingValid.length
+        : 0;
+
+    document.getElementById("averageRating").textContent =
+        rataRata.toFixed(1).replace(".", ",");
+
+
+    // Jumlah toko yang memiliki review
+    const daftarToko = [
+        ...new Set(
+            reviews.map(r => r.place).filter(Boolean)
+        )
+    ];
+
+    document.getElementById("reviewedPlaces").textContent =
+        daftarToko.length;
+    // Review per toko
+    const jumlahPerToko = {};
+
+    reviews.forEach(review => {
+
+        const toko = review.place;
+
+        if (toko) {
+            jumlahPerToko[toko] =
+                (jumlahPerToko[toko] || 0) + 1;
+        }
+
+    });
+
+    const tokoTerurut = Object.entries(jumlahPerToko)
+        .sort((a, b) => b[1] - a[1]);
+
+    categoryChart.xAxis[0].setCategories(
+        tokoTerurut.map(item => item[0])
+    );
+
+    categoryChart.series[0].setData(
+        tokoTerurut.map(item => item[1])
+    );
+    // Update distribusi rating
+    updateRatingChart();
+    // Tren review enam bulan terakhir
+    const sekarang = new Date();
+    const bulan = [];
+    const jumlahBulanan = [];
+
+    for (let i = 5; i >= 0; i--) {
+
+        const tanggal = new Date(
+            sekarang.getFullYear(),
+            sekarang.getMonth() - i,
+            1
+        );
+
+        bulan.push(
+            tanggal.toLocaleDateString("id-ID", {
+                month: "short",
+                year: "numeric"
+            })
+        );
+
+        jumlahBulanan.push(0);
+
+        reviews.forEach(review => {
+
+            const tanggalReview = getReviewDate(review);
+
+            if (
+                tanggalReview &&
+                tanggalReview.getFullYear() === tanggal.getFullYear() &&
+                tanggalReview.getMonth() === tanggal.getMonth()
+            ) {
+                jumlahBulanan[jumlahBulanan.length - 1]++;
+            }
+
+        });
+
+    }
+
+    trendChart.xAxis[0].setCategories(bulan);
+
+    trendChart.series[0].setData(jumlahBulanan);
+
+}
+// 9. EVENT FILTER TOKO
+filterTokoRating.addEventListener("change", () => {
+    updateRatingChart();
+});
+// 10. MENGAMBIL DATA FIREBASE REALTIME
+onSnapshot(reviewsRef, (snapshot) => {
+
+    reviews = snapshot.docs.map(doc => doc.data());
+
+    // Perbarui dropdown
+    updateDropdownToko();
+
+    // Perbarui seluruh statistik
+    updateStatistics();
+
+    console.log("Statistik berhasil diperbarui!");
+
+}, (error) => {
+
+    console.error("Gagal mengambil data Firebase:", error);
+
+});
+</script>
+</body>
 </html>
