@@ -20,14 +20,17 @@
         }
 
         body {
-            background: var(--cream);
+            background:
+                linear-gradient(145deg, rgba(251, 250, 246, .94) 0%, rgba(247, 251, 248, .88) 48%, rgba(238, 247, 240, .92) 100%),
+                url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1800&q=85") center / cover fixed;
             color: var(--ink);
             font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif
         }
 
         .navbar {
-            background: #fff !important;
-            border-bottom: 1px solid #e8eee9
+            background: rgba(255, 255, 255, .92) !important;
+            border-bottom: 1px solid #e8eee9;
+            backdrop-filter: blur(12px)
         }
 
         .navbar-brand {
@@ -44,6 +47,23 @@
         .nav-link.active,
         .nav-link:hover {
             color: var(--green) !important
+        }
+
+        main.section-space {
+            position: relative
+        }
+
+        main.section-space::before {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            right: -120px;
+            top: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(223, 243, 231, .75), rgba(223, 243, 231, 0) 68%);
+            pointer-events: none;
+            z-index: -1
         }
 
         .hero {
@@ -64,11 +84,15 @@
         .display-title {
             font-weight: 850;
             letter-spacing: -2px;
-            line-height: 1.04
+            line-height: 1.04;
+            background: linear-gradient(90deg, #176b4b, #4a9170 65%, #c78a46);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
         }
 
         .btn-success {
-            background: var(--green);
+            background: linear-gradient(135deg, #176b4b, #2d8b62);
             border-color: var(--green)
         }
 
@@ -84,7 +108,20 @@
         .card {
             border: 1px solid #e9eee9;
             border-radius: 18px;
-            box-shadow: 0 8px 28px rgba(27, 60, 42, .045)
+            box-shadow: 0 12px 32px rgba(27, 60, 42, .075)
+        }
+
+        main > .row .col-lg-5 .card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(239, 247, 241, .88))
+        }
+
+        main > .row .col-lg-7 > .d-flex {
+            padding-bottom: 2px
+        }
+
+        #reviews .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, .98), rgba(250, 247, 236, .72));
+            border-left: 4px solid var(--lime)
         }
 
         .food-img {
@@ -120,7 +157,7 @@
         }
 
         .footer {
-            background: #142d23;
+            background: linear-gradient(120deg, #142d23, #1d4a38);
             color: #dce9e0;
             padding: 34px 0;
             margin-top: 60px
@@ -129,12 +166,21 @@
         .form-control,
         .form-select {
             border-radius: 12px;
-            padding: .7rem .9rem
+            padding: .7rem .9rem;
+            background-color: rgba(255, 255, 255, .92);
+            border-color: #dce8df
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #6fa989;
+            box-shadow: 0 0 0 .25rem rgba(23, 107, 75, .12)
         }
 
         .badge-soft {
-            background: var(--lime);
-            color: var(--green)
+            background: linear-gradient(135deg, #dff3e7, #f4f0d8);
+            color: var(--green);
+            border: 1px solid #cce5d4
         }
 
         #campusMap {
@@ -152,7 +198,7 @@
             width: 42px;
             height: 42px;
             border-radius: 50%;
-            background: #dff3e7;
+            background: linear-gradient(135deg, #dff3e7, #f8d9a4);
             color: var(--green);
             display: grid;
             place-items: center;
@@ -173,14 +219,14 @@
 
 <body>
     <nav class="navbar navbar-expand-lg sticky-top">
-        <div class="container"><a class="navbar-brand" href="beranda.html">🍃 RasaKampus</a>
+        <div class="container"><a class="navbar-brand" href="beranda.html">🥦 RasaKampus</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"><span
                     class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navMain">
                 <ul class="navbar-nav ms-auto gap-lg-2">
-                    <li class="nav-item"><a class="nav-link" href="bernda.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="beranda.html">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="direktori.html">Direktori</a></li>
-                    <li class="nav-item"><a class="nav-link" href="review.html">Review</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="review.html">Review</a></li>
                     <li class="nav-item"><a class="nav-link" href="statistik.html">Statistik</a></li>
                     <li class="nav-item"><a class="nav-link" href="peta.html">Peta Kuliner</a></li>
                     <li class="nav-item"><a class="nav-link" href="tentang.html">Tentang</a></li>
@@ -237,7 +283,7 @@
             <div><strong>RasaKampus</strong>
                 <div class="small opacity-75">Temukan rasa favorit di sekitar kampus.</div>
             </div>
-            <div class="small opacity-75">Prototipe tugas Pengembangan Frontend · Data contoh</div>
+            <div class="small opacity-75">Web Project UTS</div>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -245,24 +291,26 @@
     <script src="https://cdn.jsdelivr.net/npm/datatables.net@2.1.8/js/dataTables.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js';
-        import { addDoc, collection, getFirestore, onSnapshot, query, serverTimestamp, orderBy } from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js';
+    <script>
+        const storageKey = 'rasakampus-reviews';
+        const now = new Date();
+        const seed = [
+            {place: 'Warung Nasi Bu Tini', author: 'Nadia', stars: 5, comment: 'Rasanya seperti masakan rumah, porsinya banyak dan harganya bersahabat.', date: '2 hari lalu', createdAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2).toISOString()},
+            {place: 'Kedai Mie Sudut', author: 'Rafi', stars: 4, comment: 'Mie ayamnya enak, cocok untuk makan cepat sebelum kelas.', date: 'Kemarin', createdAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1).toISOString()},
+            {place: 'Kopi Selasar', author: 'Dina', stars: 5, comment: 'Tempatnya nyaman untuk diskusi kelompok. Minumannya juga variatif.', date: 'Hari ini', createdAt: now.toISOString()}
+        ];
 
-        const firebaseConfig = {
-            apiKey: 'AIzaSyDEtjFFDSUaEtPQ2R928FFaaciksGhjcW',
-            authDomain: 'kulinerkampus-16bf0.firebaseapp.com',
-            projectId: 'kulinerkampus-16bf0',
-            storageBucket: 'kulinerkampus-16bf0.firebasestorage.app',
-            messagingSenderId: '478277614884',
-            appId: '1:478277614884:web:3bf9bede01b21e1247fb1'
-        };
+        function loadReviews() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(storageKey));
+                return Array.isArray(saved) ? saved : seed.slice();
+            } catch {
+                return seed.slice();
+            }
+        }
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const reviewsRef = collection(db, 'reviews');
-        const seed = [{place: 'Warung Nasi Bu Tini', author: 'Nadia', stars: 5, comment: 'Rasanya seperti masakan rumah, porsinya banyak dan harganya bersahabat.', date: '2 hari lalu'}, {place: 'Kedai Mie Sudut', author: 'Rafi', stars: 4, comment: 'Mie ayamnya enak, cocok untuk makan cepat sebelum kelas.', date: 'Kemarin'}, {place: 'Kopi Selasar', author: 'Dina', stars: 5, comment: 'Tempatnya nyaman untuk diskusi kelompok. Minumannya juga variatif.', date: 'Hari ini'}];
-        let reviews = seed.slice();
+        let reviews = loadReviews();
+
         function escapeHtml(value) {
             const element = document.createElement('div');
             element.textContent = value;
@@ -273,42 +321,37 @@
             document.getElementById('reviewCount').textContent = data.length + ' review';
             document.getElementById('reviews').innerHTML = data.slice().reverse().map(x => `<div class="card p-3"><div class="d-flex gap-3"><div class="review-avatar">${escapeHtml(x.author.charAt(0).toUpperCase())}</div><div class="flex-grow-1"><div class="d-flex justify-content-between flex-wrap"><strong>${escapeHtml(x.author)}</strong><small class="muted">${escapeHtml(x.date || 'Baru saja')}</small></div><div class="rating">${'★'.repeat(x.stars)}${'☆'.repeat(5 - x.stars)}</div><div class="fw-semibold mt-1">${escapeHtml(x.place)}</div><p class="muted mb-0 mt-1">${escapeHtml(x.comment)}</p></div></div></div>`).join('');
         }
-        document.getElementById('reviewForm').addEventListener('submit', async e => {
+        document.getElementById('reviewForm').addEventListener('submit', e => {
             e.preventDefault();
             const submitButton = e.submitter || e.target.querySelector('button[type="submit"]');
             submitButton.disabled = true;
             try {
-                await addDoc(reviewsRef, {
+                reviews.push({
                     place: place.value,
                     author: author.value.trim(),
                     stars: +stars.value,
                     comment: comment.value.trim(),
-                    createdAt: serverTimestamp()
+                    date: 'Baru saja',
+                    createdAt: new Date().toISOString()
                 });
+                localStorage.setItem(storageKey, JSON.stringify(reviews));
                 e.target.reset();
                 alert('Terima kasih! Review berhasil ditambahkan.');
+                render();
             } catch (error) {
                 console.error(error);
-                alert('Review gagal dikirim. Periksa Firestore Rules dan koneksi internet.');
+                alert('Review gagal disimpan. Periksa pengaturan penyimpanan browser.');
             } finally {
                 submitButton.disabled = false;
             }
         });
 
-        onSnapshot(query(reviewsRef, orderBy('createdAt', 'desc')), snapshot => {
-            reviews = snapshot.empty ? seed.slice() : snapshot.docs.map(doc => {
-                const item = doc.data();
-                const createdAt = item.createdAt?.toDate();
-                return {
-                    ...item,
-                    date: createdAt ? createdAt.toLocaleString('id-ID', {dateStyle: 'medium', timeStyle: 'short'}) : 'Baru saja'
-                };
-            });
+        window.addEventListener('storage', e => {
+            if (e.key !== storageKey) return;
+            reviews = loadReviews();
             render();
-        }, error => {
-            console.error(error);
-            document.getElementById('reviewCount').textContent = 'Tidak dapat memuat review';
         });
+
         render();
     </script>
 </body>
