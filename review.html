@@ -178,7 +178,7 @@
                     class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navMain">
                 <ul class="navbar-nav ms-auto gap-lg-2">
-                    <li class="nav-item"><a class="nav-link" href="bernda.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="beranda.html">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="direktori.html">Direktori</a></li>
                     <li class="nav-item"><a class="nav-link" href="review.html">Review</a></li>
                     <li class="nav-item"><a class="nav-link" href="statistik.html">Statistik</a></li>
@@ -245,24 +245,21 @@
     <script src="https://cdn.jsdelivr.net/npm/datatables.net@2.1.8/js/dataTables.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js';
-        import { addDoc, collection, getFirestore, onSnapshot, query, serverTimestamp, orderBy } from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js';
-
-        const firebaseConfig = {
-            apiKey: 'AIzaSyDEtjFFDSUaEtPQ2R928FFaaciksGhjcW',
-            authDomain: 'kulinerkampus-16bf0.firebaseapp.com',
-            projectId: 'kulinerkampus-16bf0',
-            storageBucket: 'kulinerkampus-16bf0.firebasestorage.app',
-            messagingSenderId: '478277614884',
-            appId: '1:478277614884:web:3bf9bede01b21e1247fb1'
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const reviewsRef = collection(db, 'reviews');
+    <script>
+        const storageKey = 'rasakampus-reviews';
         const seed = [{place: 'Warung Nasi Bu Tini', author: 'Nadia', stars: 5, comment: 'Rasanya seperti masakan rumah, porsinya banyak dan harganya bersahabat.', date: '2 hari lalu'}, {place: 'Kedai Mie Sudut', author: 'Rafi', stars: 4, comment: 'Mie ayamnya enak, cocok untuk makan cepat sebelum kelas.', date: 'Kemarin'}, {place: 'Kopi Selasar', author: 'Dina', stars: 5, comment: 'Tempatnya nyaman untuk diskusi kelompok. Minumannya juga variatif.', date: 'Hari ini'}];
-        let reviews = seed.slice();
+
+        function loadReviews() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(storageKey));
+                return Array.isArray(saved) ? saved : seed.slice();
+            } catch {
+                return seed.slice();
+            }
+        }
+
+        let reviews = loadReviews();
+
         function escapeHtml(value) {
             const element = document.createElement('div');
             element.textContent = value;
@@ -273,42 +270,36 @@
             document.getElementById('reviewCount').textContent = data.length + ' review';
             document.getElementById('reviews').innerHTML = data.slice().reverse().map(x => `<div class="card p-3"><div class="d-flex gap-3"><div class="review-avatar">${escapeHtml(x.author.charAt(0).toUpperCase())}</div><div class="flex-grow-1"><div class="d-flex justify-content-between flex-wrap"><strong>${escapeHtml(x.author)}</strong><small class="muted">${escapeHtml(x.date || 'Baru saja')}</small></div><div class="rating">${'★'.repeat(x.stars)}${'☆'.repeat(5 - x.stars)}</div><div class="fw-semibold mt-1">${escapeHtml(x.place)}</div><p class="muted mb-0 mt-1">${escapeHtml(x.comment)}</p></div></div></div>`).join('');
         }
-        document.getElementById('reviewForm').addEventListener('submit', async e => {
+        document.getElementById('reviewForm').addEventListener('submit', e => {
             e.preventDefault();
             const submitButton = e.submitter || e.target.querySelector('button[type="submit"]');
             submitButton.disabled = true;
             try {
-                await addDoc(reviewsRef, {
+                reviews.push({
                     place: place.value,
                     author: author.value.trim(),
                     stars: +stars.value,
                     comment: comment.value.trim(),
-                    createdAt: serverTimestamp()
+                    date: 'Baru saja'
                 });
+                localStorage.setItem(storageKey, JSON.stringify(reviews));
                 e.target.reset();
                 alert('Terima kasih! Review berhasil ditambahkan.');
+                render();
             } catch (error) {
                 console.error(error);
-                alert('Review gagal dikirim. Periksa Firestore Rules dan koneksi internet.');
+                alert('Review gagal disimpan. Periksa pengaturan penyimpanan browser.');
             } finally {
                 submitButton.disabled = false;
             }
         });
 
-        onSnapshot(query(reviewsRef, orderBy('createdAt', 'desc')), snapshot => {
-            reviews = snapshot.empty ? seed.slice() : snapshot.docs.map(doc => {
-                const item = doc.data();
-                const createdAt = item.createdAt?.toDate();
-                return {
-                    ...item,
-                    date: createdAt ? createdAt.toLocaleString('id-ID', {dateStyle: 'medium', timeStyle: 'short'}) : 'Baru saja'
-                };
-            });
+        window.addEventListener('storage', e => {
+            if (e.key !== storageKey) return;
+            reviews = loadReviews();
             render();
-        }, error => {
-            console.error(error);
-            document.getElementById('reviewCount').textContent = 'Tidak dapat memuat review';
         });
+
         render();
     </script>
 </body>
