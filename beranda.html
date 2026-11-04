@@ -20,7 +20,9 @@
         }
 
         body {
-            background: var(--cream);
+            background:
+                linear-gradient(145deg, rgba(251, 250, 246, .72) 0%, rgba(247, 251, 248, .62) 48%, rgba(238, 247, 240, .68) 100%),
+                url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1800&q=85") center / cover fixed;
             color: var(--ink);
             font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif
         }
@@ -173,7 +175,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg sticky-top">
-        <div class="container"><a class="navbar-brand" href="beranda.html">🍃 RasaKampus</a>
+        <div class="container"><a class="navbar-brand" href="beranda.html">🥦 JakPus</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"><span
                     class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navMain">
@@ -194,8 +196,8 @@
             <div class="row align-items-center g-4">
                 <div class="col-lg-7">
                     <div class="eyebrow mb-3">Direktori kuliner mahasiswa</div>
-                    <h1 class="display-title display-4 mb-3">Jelajahi rasa,<br>dekat dari kampus.</h1>
-                    <p class="lead muted mb-4">RasaKampus membantu mahasiswa menemukan tempat makan yang enak, ramah di
+                    <h1 class="display-title display-4 mb-3">Jelajahi jajanan,<br>dekat dari kampus.</h1>
+                    <p class="lead muted mb-4">JakPus membantu mahasiswa menemukan tempat makan yang enak, ramah di
                         kantong, dan dekat dengan aktivitas perkuliahan.</p>
                     <a class="btn btn-success btn-lg me-2" href="direktori.html">Jelajahi direktori</a><a
                         class="btn btn-outline-success btn-lg" href="review.html">Baca review</a>
@@ -208,9 +210,9 @@
         <section class="section-space">
             <div class="d-flex justify-content-between align-items-end mb-4">
                 <div>
-                    <div class="eyebrow">Kenalan dengan RasaKampus</div>
+                    <div class="eyebrow">Kenalan dengan JakPus</div>
                     <h2 class="fw-bold mt-2">Satu tempat untuk cari makan.</h2>
-                </div><span class="badge badge-soft rounded-pill p-2">#TemanKuliahLapar</span>
+                </div><span class="badge badge-soft rounded-pill p-2">#TemanLaparMu</span>
             </div>
             <div class="row g-3">
                 <div class="col-md-4">
@@ -248,15 +250,15 @@
                 <div>
                     <div class="eyebrow">Pilihan mahasiswa</div>
                     <h2 class="fw-bold mt-2">Highlight tempat makan</h2>
-                </div><a href="direktori.html" class="link-success fw-semibold">Lihat semua →</a>
+                </div><a href="direktori.html" class="link-success fw-semibold text-decoration-none">Lihat semua →</a>
             </div>
             <div class="row g-4" id="highlight"></div>
         </section>
     </main>
     <footer class="footer">
         <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
-            <div><strong>RasaKampus</strong>
-                <div class="small opacity-75">Temukan rasa favorit di sekitar kampus.</div>
+            <div><strong>JakPus</strong>
+                <div class="small opacity-75">Temukan Jajanan favorit di sekitar kampus.</div>
             </div>
             <div class="small opacity-75">Prototipe tugas Pengembangan Frontend</div>
         </div>
