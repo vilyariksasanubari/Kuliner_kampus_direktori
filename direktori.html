@@ -88,7 +88,7 @@
                                 <span class="price">Rp${item.harga.toLocaleString('id-ID')}</span>
                             </div>
 
-                            <a href="review.html" class="link-review">Lihat semua review</a>
+                            <a href="review.html?place=${encodeURIComponent(item.nama)}" class="link-review">Lihat review tempat ini</a>
                         </div>
                     </div>
                 `;
