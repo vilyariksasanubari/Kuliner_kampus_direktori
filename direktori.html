@@ -1,3 +1,136 @@
+<<<<<<< Updated upstream
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Direktori</title>
+    <link rel="stylesheet" href="direktori.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-container">
+            <a href="beranda.html" class="logo">🍃 RasaKampus</a>
+        </div>
+    </nav>
+
+    <main>
+        <h1 class="page-title">Direktori Kuliner</h1>
+        <p class="page-desc">Temukan tempat makan sesuai selera dan anggaranmu.</p>
+
+        <!-- Kotak Filter -->
+        <div class="filter-card">
+            <div class="form-group">
+                <label for="searchName">Cari Tempat Makan</label>
+                <input type="text" id="searchName" placeholder="Contoh: Warung Nasi...">
+            </div>
+            <div class="form-group">
+                <label for="category">Kategori</label>
+                <select id="category">
+                    <option value="">Semua Kategori</option>
+                    <option>Makanan Berat</option>
+                    <option>Makanan Ringan</option>
+                    <option>Minuman</option>
+                    <option>Mie & Bakso</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="result-bar">
+            <span id="resultCount">Memuat data...</span>
+            <button class="btn-reset" id="resetBtn">Reset Filter</button>
+        </div>
+
+        <!-- Daftar Kartu Kuliner -->
+        <div class="food-grid" id="foodGrid"></div>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        const dataMakanan = [
+            { nama: 'Ayam Geprek & Oseng Jando Matah Berkat Box', kategori: 'Makanan Berat', harga: 15000, rating: 4.8, img: 'photo-1547592180-85f173990554', desc: 'Menu rumahan, sayur, dan lauk harian.' },
+            { nama: 'Tongseng Iga Kambing Mas Kris', kategori: 'Makanan Berat', harga: 12000, rating: 4.6, img: 'photo-1569718212165-3a8278d5f624', desc: 'Tongseng Iga Kambing' },
+            { nama: 'Kedai Roti Ibu Saya', kategori: 'Makanan Ringan', harga: 12000, rating: 4.6, img: 'photo-1569718212165-3a8278d5f624', desc: 'Roti yang enak & murah' },
+            { nama: 'Arasso', kategori: 'Makanan Berat', harga: 12000, rating: 4.6, img: 'photo-1569718212165-3a8278d5f624', desc: 'Tempat Grill yang nyaman & enak.' },
+            { nama: 'Mie Gacoan', kategori: 'Mie & Bakso', harga: 22000, rating: 4.7, img: '', desc: 'Mienya yang enak dengan harga terjangkau.' },
+            { nama: 'Bakso Gacoan', kategori: 'Mie & Bakso', harga: 22000, rating: 4.7, img: 'pp.png', desc: 'Yang lagi viral sekarang.' },
+            { nama: 'Beri Kopi', kategori: 'Minuman', harga: 10000, rating: 4.3, img: 'pp.png', desc: 'Tempat nongkrong atau ngopi untuk semua kalangan' }
+        ];
+
+        // 2. Fungsi untuk menampilkan data ke layar
+        function tampilkanData(data) {
+            const grid = document.getElementById('foodGrid');
+            const infoJumlah = document.getElementById('resultCount');
+
+            infoJumlah.innerText = data.length + ' tempat ditemukan';
+
+            if (data.length === 0) {
+                grid.innerHTML = '<div class="empty-state">Tidak ada tempat kuliner yang cocok.</div>';
+                return;
+            }
+
+            let htmlCards = '';
+            for (let i = 0; i < data.length; i++) {
+                let item = data[i];
+                htmlCards += `
+                    <div class="card">
+                        <img class="food-img" src="https://images.unsplash.com/${item.img}?w=600" alt="${item.nama}">
+                        <div class="card-body">
+                            <span class="badge">${item.kategori}</span>
+                            <h3 class="card-title">${item.nama}</h3>
+                            <p class="card-desc">${item.desc}</p>
+                            
+                            <div class="card-footer">
+                                <span class="rating">★ ${item.rating}</span>
+                                <span class="price">Rp${item.harga.toLocaleString('id-ID')}</span>
+                            </div>
+
+                            <a href="review.html?place=${encodeURIComponent(item.nama)}" class="link-review">Lihat review tempat ini</a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            grid.innerHTML = htmlCards;
+        }
+
+        // 3. Fungsi untuk memfilter data berdasarkan input pencarian & kategori
+        function prosesFilter() {
+            let keyword = document.getElementById('searchName').value.toLowerCase();
+            let kategoriPilihan = document.getElementById('category').value;
+            let hasilFilter = [];
+
+            for (let i = 0; i < dataMakanan.length; i++) {
+                let item = dataMakanan[i];
+                let cocokNama = item.nama.toLowerCase().includes(keyword);
+                let cocokKategori = (kategoriPilihan === "") || (item.kategori === kategoriPilihan);
+
+                if (cocokNama && cocokKategori) {
+                    hasilFilter.push(item);
+                }
+            }
+            tampilkanData(hasilFilter);
+        }
+
+        // 4. Menghubungkan event listener ke input dan tombol reset
+        document.getElementById('searchName').addEventListener('input', prosesFilter);
+        document.getElementById('category').addEventListener('change', prosesFilter);
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            document.getElementById('searchName').value = '';
+            document.getElementById('category').value = '';
+            tampilkanData(dataMakanan);
+        });
+
+        // Jalankan pertama kali saat halaman dibuka
+        tampilkanData(dataMakanan);
+    </script>
+</body>
+
+=======
 <!doctype html>
 <html lang="id">
 
@@ -129,4 +262,5 @@
     </script>
 </body>
 
+>>>>>>> Stashed changes
 </html>
