@@ -153,6 +153,11 @@
             background-color: #fff;
         }
 
+        #ratingChart,
+        #trendChart {
+            background-color: #fff;
+        }
+
         .reviews-per-place-table {
             border: 2px solid #789184;
         }
@@ -335,7 +340,9 @@ const reviewsPerPlaceTable = document.getElementById("reviewsPerPlaceTable");
 const ratingChart = Highcharts.chart("ratingChart", {
 
     chart: {
-        type: "pie"
+        type: "pie",
+        backgroundColor: "#ffffff",
+        plotBackgroundColor: "#ffffff"
     },
 
     title: {
@@ -374,7 +381,9 @@ const ratingChart = Highcharts.chart("ratingChart", {
 const trendChart = Highcharts.chart("trendChart", {
 
     chart: {
-        type: "line"
+        type: "line",
+        backgroundColor: "#ffffff",
+        plotBackgroundColor: "#ffffff"
     },
 
     title: {
