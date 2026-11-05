@@ -28,24 +28,24 @@
         }
 
         .navbar {
-            background: #fff !important;
+            background: #fff;
             border-bottom: 1px solid #e8eee9
         }
 
         .navbar-brand {
             font-weight: 800;
-            color: var(--green) !important;
+            color: green;
             letter-spacing: -.5px
         }
 
         .nav-link {
             font-weight: 600;
-            color: #53645b !important
+            color: #53645b;
         }
 
         .nav-link.active,
         .nav-link:hover {
-            color: var(--green) !important
+            color: green;
         }
 
         .hero {
@@ -217,31 +217,32 @@
             <div class="row g-3">
                 <div class="col-md-4">
                     <a href="direktori.html" class="text-decoration-none text-dark">
-                    <div class="stat-card h-100">
-                        <div class="fs-2">🔎</div>
-                        <h5 class="fw-bold mt-3">Temukan tempat</h5>
-                        <p class="muted mb-0">Cari rekomendasi berdasarkan kategori, kisaran harga, dan rating
-                            pengunjung.</p>
-                    </div>
+                        <div class="stat-card h-100">
+                            <div class="fs-2">🔎</div>
+                            <h5 class="fw-bold mt-3">Temukan tempat</h5>
+                            <p class="muted mb-0">Cari rekomendasi berdasarkan kategori, kisaran harga, dan rating
+                                pengunjung.</p>
+                        </div>
                     </a>
                 </div>
                 <div class="col-md-4">
                     <a href="review.html" class="text-decoration-none text-dark">
-                    <div class="stat-card h-100">
-                        <div class="fs-2">⭐</div>
-                        <h5 class="fw-bold mt-3">Baca Ulasan</h5>
-                        <p class="muted mb-0">Lihat ulasan mahasiswa sebelum menentukan tempat makan berikutnya.</p>
-                    </div>
+                        <div class="stat-card h-100">
+                            <div class="fs-2">⭐</div>
+                            <h5 class="fw-bold mt-3">Baca Ulasan</h5>
+                            <p class="muted mb-0">Lihat ulasan mahasiswa sebelum menentukan tempat makan berikutnya.</p>
+                        </div>
                     </a>
                 </div>
-    
+
                 <div class="col-md-4">
-                <a href="peta.html" class="text-decoration-none text-dark">
-                    <div class="stat-card h-100">
-                        <div class="fs-2">📍</div>
-                        <h5 class="fw-bold mt-3">Jelajahi sekitar</h5>
-                        <p class="muted mb-0">Gunakan peta untuk melihat persebaran lokasi kuliner sekitar kampus.</p>
-                    </div>
+                    <a href="peta.html" class="text-decoration-none text-dark">
+                        <div class="stat-card h-100">
+                            <div class="fs-2">📍</div>
+                            <h5 class="fw-bold mt-3">Jelajahi sekitar</h5>
+                            <p class="muted mb-0">Gunakan peta untuk melihat persebaran lokasi kuliner sekitar kampus.
+                            </p>
+                        </div>
                 </div>
             </div>
         </section>
@@ -272,11 +273,26 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         const foods = [
-            {name: 'Tongseng Iga Kambing Mas Kris', cat: 'Makanan Berat', price: 12000, rating: 4.6, img: 'photo-1547592180-85f173990554', desc: 'Tongseng Iga Kambing'},
-            {name: 'Mie Gacoan', cat: 'Mie & Bakso', price: 12000, rating: 4.6, img: 'photo-1569718212165-3a8278d5f624', desc: 'Mie hangat dengan pilihan topping.'},
-            {name: 'Beri Kopi', cat: 'Minuman', price: 18000, rating: 4.7, img: 'photo-150 coffee', desc: 'Tempat santai untuk jeda di sela kelas.'}
+            { name: 'Tongseng Iga Kambing Mas Kris', cat: 'Makanan Berat', price: 20000, rating: 4.8, img: 'https://img.okezone.com/content/2016/06/21/298/1420727/resep-tongseng-iga-kambing-spesial-untuk-hari-raya-yJBifZkRaZ.jpg', desc: 'Tongseng Iga Kambing' },
+            { name: 'Mie Gacoan', cat: 'Mie & Bakso', price: 10000, rating: 4.7, img: 'https://media.istockphoto.com/id/2157017339/photo/mie-gacoan-is-a-favorite-restaurant-for-indonesians.jpg?s=612x612&w=is&k=20&c=6UOjci7_nqKzkMrBU5ioLocryKv4tDR85RopjRG7qHM=', desc: 'Mienya yang enak dengan harga terjangkau.' },
+            { name: 'Beri Kopi', cat: 'Minuman', price: 19000, rating: 4.3, img: 'https://image.popmama.com/post/20260304/upload_baffc9701648ee4321754853285371ad_fc1a27b3-f95b-4507-8cd9-1a749122abff.jpg', desc: 'Tempat nongkrong atau ngopi untuk semua kalangan.' }
         ];
-        document.getElementById('highlight').innerHTML = foods.map(f => `<div class="col-md-4"><div class="card h-100 overflow-hidden"><img class="food-img" src="https://images.unsplash.com/${f.img === 'photo-150 coffee' ? 'photo-1509042239860-f550ce710b93' : f.img}?w=700" alt="${f.name}"><div class="card-body"><span class="badge badge-soft">${f.cat}</span><h5 class="fw-bold mt-2">${f.name}</h5><p class="muted small">${f.desc}</p><div class="d-flex justify-content-between"><span class="rating">★ ${f.rating}</span><strong>Rp${f.price.toLocaleString('id-ID')}</strong></div></div></div></div>`).join('');
+        document.getElementById('highlight').innerHTML = foods.map(f => `
+    <div class="col-md-4">
+        <div class="card h-100 overflow-hidden">
+            <img class="food-img" src="${f.img}" alt="${f.name}">
+            <div class="card-body">
+                <span class="badge badge-soft">${f.cat}</span>
+                <h5 class="fw-bold mt-2">${f.name}</h5>
+                <p class="muted small">${f.desc}</p>
+                <div class="d-flex justify-content-between">
+                    <span class="rating">★ ${f.rating}</span>
+                    <strong>Rp${f.price.toLocaleString('id-ID')}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+`).join('');
     </script>
 </body>
 
