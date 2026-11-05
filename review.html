@@ -264,6 +264,7 @@
                         <label class="form-label">Pengalamanmu</label><textarea class="form-control mb-3" id="comment"
                             rows="4" placeholder="Ceritakan rasa, harga, suasana..." required></textarea><button
                             type="submit"
+                            
                             class="btn btn-success w-100">Kirim review</button>
                     </form>
                     <div class="small muted mt-3">Review tersimpan di browser perangkat ini dan diperbarui otomatis
@@ -293,6 +294,9 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         const storageKey = 'rasakampus-reviews';
+        const reviewChannel = typeof BroadcastChannel !== 'undefined'
+            ? new BroadcastChannel('rasakampus-reviews')
+            : null;
         const now = new Date();
         const seed = [
             {place: 'Warung Nasi Bu Tini', author: 'Nadia', stars: 5, comment: 'Rasanya seperti masakan rumah, porsinya banyak dan harganya bersahabat.', date: '2 hari lalu', createdAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2).toISOString()},
@@ -310,6 +314,16 @@
         }
 
         let reviews = loadReviews();
+        try {
+            localStorage.setItem(storageKey, JSON.stringify(reviews));
+        } catch (error) {
+            console.warn('Data review hanya tersimpan sementara.', error);
+        }
+
+        const placeInput = document.getElementById('place');
+        const authorInput = document.getElementById('author');
+        const starsInput = document.getElementById('stars');
+        const commentInput = document.getElementById('comment');
 
         function escapeHtml(value) {
             const element = document.createElement('div');
@@ -327,14 +341,21 @@
             submitButton.disabled = true;
             try {
                 reviews.push({
-                    place: place.value,
-                    author: author.value.trim(),
-                    stars: +stars.value,
-                    comment: comment.value.trim(),
+                    place: placeInput.value,
+                    author: authorInput.value.trim(),
+                    stars: +starsInput.value,
+                    comment: commentInput.value.trim(),
                     date: 'Baru saja',
                     createdAt: new Date().toISOString()
                 });
-                localStorage.setItem(storageKey, JSON.stringify(reviews));
+                try {
+                    localStorage.setItem(storageKey, JSON.stringify(reviews));
+                } catch (error) {
+                    console.warn('Browser tidak mengizinkan penyimpanan lokal.', error);
+                }
+                if (reviewChannel) {
+                    reviewChannel.postMessage({ type: 'reviews-updated' });
+                }
                 e.target.reset();
                 alert('Terima kasih! Review berhasil ditambahkan.');
                 render();
