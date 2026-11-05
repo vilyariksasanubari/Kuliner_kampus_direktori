@@ -263,12 +263,12 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
 <script>
-const storageKey = "rasakampus-reviews";
+const storageKey = "JakPus-reviews";
 const now = new Date();
 const seedReviews = [
-    {place: "Warung Nasi Bu Tini", author: "Nadia", stars: 5, comment: "Rasanya seperti masakan rumah.", date: "2 hari lalu", createdAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2).toISOString()},
-    {place: "Kedai Mie Sudut", author: "Rafi", stars: 4, comment: "Mie ayamnya enak.", date: "Kemarin", createdAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1).toISOString()},
-    {place: "Kopi Selasar", author: "Dina", stars: 5, comment: "Tempatnya nyaman untuk diskusi.", date: "Hari ini", createdAt: now.toISOString()}
+    {place: "Ayam Geprek & Oseng Jando Matah Berkat Box", author: "Nadia", stars: 5, comment: "Rasanya seperti masakan rumah, porsinya banyak dan harganya bersahabat.", date: "2 hari lalu", createdAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2).toISOString()},
+    {place: "Tongseng Iga Kambing Mas Kris", author: "Rafi", stars: 4, comment: "Tongsengnya hangat, gurih, dan cocok untuk makan cepat sebelum kelas.", date: "Kemarin", createdAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1).toISOString()},
+    {place: "Beri Kopi", author: "Dina", stars: 5, comment: "Tempatnya nyaman untuk diskusi kelompok. Minumannya juga variatif.", date: "Hari ini", createdAt: now.toISOString()}
 ];
 
 function loadReviews() {
@@ -437,9 +437,11 @@ function updateRatingChart() {
 
     });
 
+    const warnaRating = ["#dc3545", "#fd7e14", "#ffc107", "#84b547", "#198754"];
     const dataPie = jumlahRating.map((jumlah, index) => ({
         name: `${index + 1} Bintang`,
-        y: jumlah
+        y: jumlah,
+        color: warnaRating[index]
     }));
 
     ratingChart.series[0].setData(dataPie);
@@ -562,7 +564,7 @@ window.addEventListener("storage", event => {
 });
 
 if (typeof BroadcastChannel !== "undefined") {
-    const reviewChannel = new BroadcastChannel("rasakampus-reviews");
+    const reviewChannel = new BroadcastChannel("JakPus-reviews");
     reviewChannel.addEventListener("message", event => {
         if (event.data?.type === "reviews-updated") refreshReviewData();
     });
