@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Review | RasaKampus</title>
+    <title>Review | Jakpus</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/datatables.net-dt@2.1.8/css/dataTables.dataTables.min.css">
@@ -219,7 +219,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg sticky-top">
-        <div class="container"><a class="navbar-brand" href="beranda.html">🥦 RasaKampus</a>
+        <div class="container"><a class="navbar-brand" href="beranda.html">🥗JakPus</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"><span
                     class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navMain">
@@ -246,11 +246,13 @@
                     <form id="reviewForm"><label class="form-label">Tempat makan</label><select class="form-select mb-3"
                             id="place" required>
                             <option value="">Pilih tempat</option>
-                            <option>Warung Nasi Bu Tini</option>
-                            <option>Kedai Mie Sudut</option>
-                            <option>Ayam Geprek Bara</option>
-                            <option>Kopi Selasar</option>
-                            <option>Soto Pojok</option>
+                            <option>Ayam Geprek & Oseng Jando Matah Berkat Box</option>
+                            <option>Tongseng Iga Kambing Mas Kris</option>
+                            <option>Kedai Roti Ibu Saya</option>
+                            <option>Arasso</option>
+                            <option>Mie Gacoan</option>
+                            <option>Bakso Gacoan</option>
+                            <option>Beri Kopi</option>
                         </select>
                         <label class="form-label">Nama / inisial</label><input class="form-control mb-3" id="author"
                             placeholder="Mis. Andi" required>
@@ -264,6 +266,7 @@
                         <label class="form-label">Pengalamanmu</label><textarea class="form-control mb-3" id="comment"
                             rows="4" placeholder="Ceritakan rasa, harga, suasana..." required></textarea><button
                             type="submit"
+                            
                             class="btn btn-success w-100">Kirim review</button>
                     </form>
                     <div class="small muted mt-3">Review tersimpan di browser perangkat ini dan diperbarui otomatis
@@ -274,14 +277,26 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="fw-bold mb-0">Review terbaru</h4><span class="badge badge-soft" id="reviewCount"></span>
                 </div>
+                <label class="form-label fw-semibold" for="placeFilter">Lihat review berdasarkan tempat</label>
+                <select class="form-select mb-2" id="placeFilter">
+                    <option value="">Semua tempat makan</option>
+                    <option>Ayam Geprek & Oseng Jando Matah Berkat Box</option>
+                    <option>Tongseng Iga Kambing Mas Kris</option>
+                    <option>Kedai Roti Ibu Saya</option>
+                    <option>Arasso</option>
+                    <option>Mie Gacoan</option>
+                    <option>Bakso Gacoan</option>
+                    <option>Beri Kopi</option>
+                </select>
+                <div class="small text-muted mb-3" id="placeSummary"></div>
                 <div id="reviews" class="d-grid gap-3"></div>
             </div>
         </div>
     </main>
     <footer class="footer">
         <div class="container d-flex flex-column flex-md-row justify-content-between gap-2">
-            <div><strong>RasaKampus</strong>
-                <div class="small opacity-75">Temukan rasa favorit di sekitar kampus.</div>
+            <div><strong>JakPus</strong>
+                <div class="small opacity-75">Jajanan Anak Kampus</div>
             </div>
             <div class="small opacity-75">Web Project UTS</div>
         </div>
@@ -292,12 +307,15 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        const storageKey = 'rasakampus-reviews';
+        const storageKey = 'JakPus-reviews';
+        const reviewChannel = typeof BroadcastChannel !== 'undefined'
+            ? new BroadcastChannel('JakPus-reviews')
+            : null;
         const now = new Date();
         const seed = [
-            {place: 'Warung Nasi Bu Tini', author: 'Nadia', stars: 5, comment: 'Rasanya seperti masakan rumah, porsinya banyak dan harganya bersahabat.', date: '2 hari lalu', createdAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2).toISOString()},
-            {place: 'Kedai Mie Sudut', author: 'Rafi', stars: 4, comment: 'Mie ayamnya enak, cocok untuk makan cepat sebelum kelas.', date: 'Kemarin', createdAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1).toISOString()},
-            {place: 'Kopi Selasar', author: 'Dina', stars: 5, comment: 'Tempatnya nyaman untuk diskusi kelompok. Minumannya juga variatif.', date: 'Hari ini', createdAt: now.toISOString()}
+            {place: 'Ayam Geprek & Oseng Jando Matah Berkat Box', author: 'Nadia', stars: 5, comment: 'Rasanya seperti masakan rumah, porsinya banyak dan harganya bersahabat.', date: '2 hari lalu', createdAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2).toISOString()},
+            {place: 'Tongseng Iga Kambing Mas Kris', author: 'Rafi', stars: 4, comment: 'Tongsengnya hangat, gurih, dan cocok untuk makan cepat sebelum kelas.', date: 'Kemarin', createdAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1).toISOString()},
+            {place: 'Beri Kopi', author: 'Dina', stars: 5, comment: 'Tempatnya nyaman untuk diskusi kelompok. Minumannya juga variatif.', date: 'Hari ini', createdAt: now.toISOString()}
         ];
 
         function loadReviews() {
@@ -310,6 +328,23 @@
         }
 
         let reviews = loadReviews();
+        try {
+            localStorage.setItem(storageKey, JSON.stringify(reviews));
+        } catch (error) {
+            console.warn('Data review hanya tersimpan sementara.', error);
+        }
+
+        const placeInput = document.getElementById('place');
+        const authorInput = document.getElementById('author');
+        const starsInput = document.getElementById('stars');
+        const commentInput = document.getElementById('comment');
+        const placeFilter = document.getElementById('placeFilter');
+        const urlPlace = new URLSearchParams(window.location.search).get('place');
+
+        if (urlPlace) {
+            placeFilter.value = urlPlace;
+            placeInput.value = urlPlace;
+        }
 
         function escapeHtml(value) {
             const element = document.createElement('div');
@@ -317,24 +352,52 @@
             return element.innerHTML;
         }
         function render() {
-            const data = reviews;
+            const selectedPlace = placeFilter.value;
+            const data = selectedPlace
+                ? reviews.filter(review => review.place === selectedPlace)
+                : reviews;
+            const average = data.length
+                ? data.reduce((total, review) => total + Number(review.stars), 0) / data.length
+                : 0;
             document.getElementById('reviewCount').textContent = data.length + ' review';
-            document.getElementById('reviews').innerHTML = data.slice().reverse().map(x => `<div class="card p-3"><div class="d-flex gap-3"><div class="review-avatar">${escapeHtml(x.author.charAt(0).toUpperCase())}</div><div class="flex-grow-1"><div class="d-flex justify-content-between flex-wrap"><strong>${escapeHtml(x.author)}</strong><small class="muted">${escapeHtml(x.date || 'Baru saja')}</small></div><div class="rating">${'★'.repeat(x.stars)}${'☆'.repeat(5 - x.stars)}</div><div class="fw-semibold mt-1">${escapeHtml(x.place)}</div><p class="muted mb-0 mt-1">${escapeHtml(x.comment)}</p></div></div></div>`).join('');
+            document.getElementById('placeSummary').textContent = data.length
+                ? `Rating rata-rata: ${average.toFixed(1)} dari 5`
+                : 'Belum ada review untuk filter ini.';
+            document.getElementById('reviews').innerHTML = data.length
+                ? data.slice().reverse().map(x => `<div class="card p-3"><div class="d-flex gap-3"><div class="review-avatar">${escapeHtml(x.author.charAt(0).toUpperCase())}</div><div class="flex-grow-1"><div class="d-flex justify-content-between flex-wrap"><strong>${escapeHtml(x.author)}</strong><small class="muted">${escapeHtml(x.date || 'Baru saja')}</small></div><div class="rating">${'★'.repeat(x.stars)}${'☆'.repeat(5 - x.stars)}</div><div class="fw-semibold mt-1">${escapeHtml(x.place)}</div><p class="muted mb-0 mt-1">${escapeHtml(x.comment)}</p></div></div></div>`).join('')
+                : '<div class="card p-4 text-center muted">Belum ada review untuk tempat makan ini.</div>';
         }
+        placeFilter.addEventListener('change', () => {
+            const url = new URL(window.location.href);
+            if (placeFilter.value) {
+                url.searchParams.set('place', placeFilter.value);
+            } else {
+                url.searchParams.delete('place');
+            }
+            window.history.replaceState({}, '', url);
+            render();
+        });
         document.getElementById('reviewForm').addEventListener('submit', e => {
             e.preventDefault();
             const submitButton = e.submitter || e.target.querySelector('button[type="submit"]');
             submitButton.disabled = true;
             try {
                 reviews.push({
-                    place: place.value,
-                    author: author.value.trim(),
-                    stars: +stars.value,
-                    comment: comment.value.trim(),
+                    place: placeInput.value,
+                    author: authorInput.value.trim(),
+                    stars: +starsInput.value,
+                    comment: commentInput.value.trim(),
                     date: 'Baru saja',
                     createdAt: new Date().toISOString()
                 });
-                localStorage.setItem(storageKey, JSON.stringify(reviews));
+                try {
+                    localStorage.setItem(storageKey, JSON.stringify(reviews));
+                } catch (error) {
+                    console.warn('Browser tidak mengizinkan penyimpanan lokal.', error);
+                }
+                if (reviewChannel) {
+                    reviewChannel.postMessage({ type: 'reviews-updated' });
+                }
                 e.target.reset();
                 alert('Terima kasih! Review berhasil ditambahkan.');
                 render();
