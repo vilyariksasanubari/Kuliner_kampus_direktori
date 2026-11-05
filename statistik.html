@@ -149,6 +149,22 @@
             color: #345342
         }
 
+        #reviewsPerPlaceTable > tr > * {
+            background-color: #fff;
+        }
+
+        .reviews-per-place-table {
+            border: 2px solid #789184;
+        }
+
+        .reviews-per-place-table > :not(caption) > * > * {
+            border: 2px solid #789184;
+        }
+
+        .reviews-per-place-table thead th {
+            border-bottom-width: 3px;
+        }
+
         .review-avatar {
             width: 42px;
             height: 42px;
@@ -223,7 +239,17 @@
                 <div class="card p-3 p-md-4 h-100">
                     <h5 class="fw-bold">Review per Tempat Makan</h5>
                     <p class="muted small">Jumlah review yang diterima setiap tempat.</p>
-                    <div id="categoryChart" class="chart-container"></div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered reviews-per-place-table align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Tempat Makan</th>
+                                    <th scope="col" class="text-center">Jumlah Review</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reviewsPerPlaceTable"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -304,14 +330,7 @@ function getReviewDate(review) {
     return null;
 }
 // 5. MEMBUAT GRAFIK
-// Grafik review per toko
-const categoryChart = Highcharts.chart("categoryChart", {
-    chart: {type: "column"},
-    title: {text: null},
-    xAxis: {categories: []},
-    yAxis: {min: 0, allowDecimals: false, title: { text: "Jumlah Review"}},
-    series: [{name: "Review", data: [] }]
-});
+const reviewsPerPlaceTable = document.getElementById("reviewsPerPlaceTable");
 // GRAFIK DISTRIBUSI RATING BERBENTUK LINGKARAN
 const ratingChart = Highcharts.chart("ratingChart", {
 
@@ -497,13 +516,19 @@ function updateStatistics() {
     const tokoTerurut = Object.entries(jumlahPerToko)
         .sort((a, b) => b[1] - a[1]);
 
-    categoryChart.xAxis[0].setCategories(
-        tokoTerurut.map(item => item[0])
-    );
+    reviewsPerPlaceTable.replaceChildren();
+    tokoTerurut.forEach(([toko, jumlah]) => {
+        const row = document.createElement("tr");
+        const placeCell = document.createElement("th");
+        const countCell = document.createElement("td");
 
-    categoryChart.series[0].setData(
-        tokoTerurut.map(item => item[1])
-    );
+        placeCell.scope = "row";
+        placeCell.textContent = toko;
+        countCell.className = "text-center";
+        countCell.textContent = jumlah;
+        row.append(placeCell, countCell);
+        reviewsPerPlaceTable.append(row);
+    });
     // Update distribusi rating
     updateRatingChart();
     // Tren review enam bulan terakhir
