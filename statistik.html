@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Statistik | RasaKampus</title>
+    <title>Statistik | JakPus</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/datatables.net-dt@2.1.8/css/dataTables.dataTables.min.css">
@@ -262,33 +262,31 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
-<script type="module">
+<script>
+const storageKey = "rasakampus-reviews";
+const now = new Date();
+const seedReviews = [
+    {place: "Warung Nasi Bu Tini", author: "Nadia", stars: 5, comment: "Rasanya seperti masakan rumah.", date: "2 hari lalu", createdAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2).toISOString()},
+    {place: "Kedai Mie Sudut", author: "Rafi", stars: 4, comment: "Mie ayamnya enak.", date: "Kemarin", createdAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1).toISOString()},
+    {place: "Kopi Selasar", author: "Dina", stars: 5, comment: "Tempatnya nyaman untuk diskusi.", date: "Hari ini", createdAt: now.toISOString()}
+];
 
-// 1. IMPORT FIREBASE
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {getFirestore, collection,onSnapshot} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+function loadReviews() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(storageKey));
+        return Array.isArray(saved) ? saved : seedReviews;
+    } catch {
+        return seedReviews;
+    }
+}
 
-// 2. KONFIGURASI FIREBASE
-const firebaseConfig = {
-    apiKey: "ISI_API_KEY_FIREBASE",
-    authDomain: "ISI_AUTH_DOMAIN",
-    projectId: "kulinerkampus-16bf0",
-    storageBucket: "ISI_STORAGE_BUCKET",
-    messagingSenderId: "ISI_MESSAGING_SENDER_ID",
-    appId: "ISI_APP_ID"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const reviewsRef = collection(db, "reviews");
-
-// 3. PENGATURAN HIGHCHARTS
 Highcharts.setOptions({
     colors: ["#176b4b", "#65a982", "#f29b50", "#9bc9ac", "#d7b56d"],
     credits: {enabled: false}
 });
 
 // 4. VARIABEL
-let reviews = [];
+let reviews = loadReviews();
 const filterTokoRating = document.getElementById("filterTokoRating");
 // Mengambil tanggal dari Firestore
 function getReviewDate(review) {
@@ -553,24 +551,24 @@ function updateStatistics() {
 filterTokoRating.addEventListener("change", () => {
     updateRatingChart();
 });
-// 10. MENGAMBIL DATA FIREBASE REALTIME
-onSnapshot(reviewsRef, (snapshot) => {
-
-    reviews = snapshot.docs.map(doc => doc.data());
-
-    // Perbarui dropdown
+function refreshReviewData() {
+    reviews = loadReviews();
     updateDropdownToko();
-
-    // Perbarui seluruh statistik
     updateStatistics();
+}
 
-    console.log("Statistik berhasil diperbarui!");
-
-}, (error) => {
-
-    console.error("Gagal mengambil data Firebase:", error);
-
+window.addEventListener("storage", event => {
+    if (event.key === storageKey) refreshReviewData();
 });
+
+if (typeof BroadcastChannel !== "undefined") {
+    const reviewChannel = new BroadcastChannel("rasakampus-reviews");
+    reviewChannel.addEventListener("message", event => {
+        if (event.data?.type === "reviews-updated") refreshReviewData();
+    });
+}
+
+refreshReviewData();
 </script>
 </body>
 </html>
