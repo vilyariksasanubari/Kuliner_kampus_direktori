@@ -42,10 +42,6 @@ nav {
     align-items: center;
 }
 
-.fw-bold {
-    font-weight: 8000;
-}
-
 .logo {
     font-size: 1.25rem;
     font-weight: 800;
@@ -243,5 +239,33 @@ select:focus {
 
     .page-title {
         font-size: 1.5rem;
+    }
+}
+
+/* --- FOOTER --- */
+.footer {
+    background: #142d23;
+    color: #dce9e0;
+    padding: 34px 0;
+    margin-top: 60px;
+}
+
+
+.footer strong {
+    font-size: 1rem;
+}
+
+.footer .small {
+    font-size: 0.85rem;
+}
+
+.footer .opacity-75 {
+    opacity: 0.75;
+}
+
+@media (max-width:576px) {
+    .footer .container {
+        flex-direction: column;
+        gap: 12px;
     }
 }
