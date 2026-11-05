@@ -156,6 +156,7 @@
         #ratingChart,
         #trendChart {
             background-color: #fff;
+            color-scheme: light;
         }
 
         .reviews-per-place-table {
@@ -342,12 +343,13 @@ const ratingChart = Highcharts.chart("ratingChart", {
     chart: {
         type: "pie",
         backgroundColor: "#ffffff",
-        plotBackgroundColor: "#ffffff"
+        plotBackgroundColor: "#ffffff",
+        style: {
+            color: "#172b24"
+        }
     },
 
-    title: {
-        text: null
-    },
+    title: {text: null},
 
     tooltip: {
         pointFormat:
@@ -363,10 +365,22 @@ const ratingChart = Highcharts.chart("ratingChart", {
             dataLabels: {
                 enabled: true,
                 format: "{point.name}<br>{point.percentage:.1f}%",
-                distance: 20
+                distance: 20,
+                style: {
+                    color: "#172b24"
+                }
             },
 
             showInLegend: true
+        }
+    },
+
+    legend: {
+        itemStyle: {
+            color: "#172b24"
+        },
+        itemHoverStyle: {
+            color: "#172b24"
         }
     },
 
@@ -379,34 +393,22 @@ const ratingChart = Highcharts.chart("ratingChart", {
 });
 // Grafik tren bulanan
 const trendChart = Highcharts.chart("trendChart", {
-
-    chart: {
-        type: "line",
-        backgroundColor: "#ffffff",
-        plotBackgroundColor: "#ffffff"
-    },
-
-    title: {
-        text: null
-    },
-
+    chart: {type: "line", backgroundColor: "#fff"},
+    title: {text: null},
     xAxis: {
-        categories: []
+        categories: [],
+        labels: {style: {color: "#345342"}}
     },
-
     yAxis: {
         min: 0,
         allowDecimals: false,
-        title: {
-            text: "Jumlah Review"
-        }
+        gridLineColor: "#dce8df",
+        gridLineWidth: 1,
+        title: {text: "Jumlah Review", style: {color: "#345342"}},
+        labels: {style: {color: "#345342"}}
     },
-
-    series: [{
-        name: "Review",
-        data: []
-    }]
-
+    legend: {itemStyle: {color: "#176b4b"}, itemHoverStyle: {color: "#176b4b"}},
+    series: [{name: "Review", color: "#176b4b", lineWidth: 1, data: []}]
 });
 // 6. UPDATE DROPDOWN TOKO
 function updateDropdownToko() {
