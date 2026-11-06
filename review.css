@@ -1,0 +1,84 @@
+:root {
+    --ink:#172b24; --muted:#6b7b72; --green:#176b4b;
+    --lime:#dff3e7; --cream:#fbfaf6; --orange:#f29b50;
+}
+
+body {
+    background: linear-gradient(145deg,rgba(251,250,246,.72),rgba(247,251,248,.62) 48%,rgba(238,247,240,.68)),
+        url("backround.jpg") center/cover fixed;
+    color:var(--ink);
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+
+.navbar {
+    background:rgba(255,255,255,.92)!important;
+    border-bottom:1px solid #e8eee9;
+    backdrop-filter:blur(12px);
+}
+.navbar-brand { font-weight:800; color:var(--green)!important; letter-spacing:-.5px; }
+.nav-link { font-weight:600; color:#53645b!important; }
+.nav-link.active,.nav-link:hover { color:var(--green)!important; }
+
+main.section-space { position:relative; }
+main.section-space::before {
+    content:""; position:absolute; width:280px; height:280px; right:-120px; top:40px;
+    border-radius:50%; background:radial-gradient(circle,rgba(223,243,231,.75),rgba(223,243,231,0) 68%);
+    pointer-events:none; z-index:-1;
+}
+
+.hero {
+    background:linear-gradient(120deg,#e7f5eb,#f8f5e9);
+    border-radius:28px; padding:clamp(28px,5vw,64px); overflow:hidden;
+}
+.eyebrow { color:var(--green); font-weight:800; text-transform:uppercase; letter-spacing:1.5px; font-size:.75rem; }
+.display-title {
+    font-weight:850; letter-spacing:-2px; line-height:1.04;
+    background:linear-gradient(90deg,#176b4b,#4a9170 65%,#c78a46);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+
+.btn-success { background:linear-gradient(135deg,#176b4b,#2d8b62); border-color:var(--green); }
+.btn-success:hover { background:#10553a; }
+.btn-outline-success { border-color:var(--green); color:var(--green); }
+.card {
+    border:1px solid #e9eee9; border-radius:18px;
+    box-shadow:0 12px 32px rgba(27,60,42,.075);
+}
+main>.row .col-lg-5 .card {
+    background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(239,247,241,.88));
+}
+main>.row .col-lg-7>.d-flex { padding-bottom:2px; }
+#reviews .card {
+    background:linear-gradient(135deg,rgba(255,255,255,.98),rgba(250,247,236,.72));
+    border-left:4px solid var(--lime);
+}
+
+.food-img { height:180px; object-fit:cover; border-radius:16px 16px 0 0; }
+.rating { color:#d98a26; font-weight:800; }
+.muted { color:var(--muted); }
+.stat-card { background:#fff; border-radius:18px; padding:22px; border:1px solid #e9eee9; }
+.stat-number { font-size:2rem; font-weight:850; color:var(--green); }
+.section-space { padding:52px 0; }
+.footer {
+    background:linear-gradient(120deg,#142d23,#1d4a38);
+    color:#dce9e0; padding:34px 0; margin-top:60px;
+}
+
+.form-control,.form-select {
+    border-radius:12px; padding:.7rem .9rem;
+    background-color:rgba(255,255,255,.92); border-color:#dce8df;
+}
+.form-control:focus,.form-select:focus { border-color:#6fa989; box-shadow:0 0 0 .25rem rgba(23,107,75,.12); }
+.badge-soft { background:linear-gradient(135deg,#dff3e7,#f4f0d8); color:var(--green); border:1px solid #cce5d4; }
+#campusMap { height:390px; border-radius:18px; z-index:1; }
+.table thead th { background:#eff7f1; color:#345342; }
+.review-avatar {
+    width:42px; height:42px; border-radius:50%;
+    background:linear-gradient(135deg,#dff3e7,#f8d9a4);
+    color:var(--green); display:grid; place-items:center; font-weight:800;
+}
+
+@media(max-width:576px) {
+    .display-title { letter-spacing:-1px; }
+    .section-space { padding:34px 0; }
+}
